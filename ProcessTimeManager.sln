@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessTimeManager", "ProcessTimeManager\ProcessTimeManager.csproj", "{135BF608-48C2-4A57-86A8-9D12A26CDD76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{135BF608-48C2-4A57-86A8-9D12A26CDD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135BF608-48C2-4A57-86A8-9D12A26CDD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135BF608-48C2-4A57-86A8-9D12A26CDD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135BF608-48C2-4A57-86A8-9D12A26CDD76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {69A0C42A-911C-453A-A5A9-96E479BC0CFA}
+	EndGlobalSection
+EndGlobal
