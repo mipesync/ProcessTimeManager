@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.processList = new System.Windows.Forms.DataGridView();
             this.process_Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.process_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +44,7 @@
             this.tabAllProcesses = new System.Windows.Forms.TabPage();
             this.tabSelectedProcesses = new System.Windows.Forms.TabPage();
             this.selectedProcesses = new System.Windows.Forms.DataGridView();
+            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,14 +64,14 @@
             this.processList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.processList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.processList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.processList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.processList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.processList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.processList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.process_Select,
@@ -92,10 +93,10 @@
             // 
             // process_Select
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.NullValue = false;
-            this.process_Select.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.NullValue = false;
+            this.process_Select.DefaultCellStyle = dataGridViewCellStyle2;
             this.process_Select.FalseValue = "false";
             this.process_Select.HeaderText = "Select";
             this.process_Select.Name = "process_Select";
@@ -114,9 +115,9 @@
             // processIcon
             // 
             this.processIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle8.NullValue")));
-            this.processIcon.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle3.NullValue")));
+            this.processIcon.DefaultCellStyle = dataGridViewCellStyle3;
             this.processIcon.HeaderText = "Icon";
             this.processIcon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.processIcon.Name = "processIcon";
@@ -183,16 +184,17 @@
             this.selectedProcesses.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.selectedProcesses.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.selectedProcesses.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.selectedProcesses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.selectedProcesses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.selectedProcesses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.selectedProcesses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Selected,
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewImageColumn1,
             this.dataGridViewTextBoxColumn2,
@@ -208,6 +210,13 @@
             this.selectedProcesses.Size = new System.Drawing.Size(786, 416);
             this.selectedProcesses.TabIndex = 1;
             // 
+            // Selected
+            // 
+            this.Selected.HeaderText = "Selected";
+            this.Selected.Name = "Selected";
+            this.Selected.ReadOnly = true;
+            this.Selected.Visible = false;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "Id";
@@ -218,9 +227,9 @@
             // dataGridViewImageColumn1
             // 
             this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle10.NullValue")));
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle5.NullValue")));
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewImageColumn1.HeaderText = "Icon";
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
@@ -251,7 +260,7 @@
             this.Controls.Add(this.tabs);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Process Time Manager";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.processList)).EndInit();
             this.tabs.ResumeLayout(false);
@@ -274,6 +283,7 @@
         private DataGridViewTextBoxColumn processName;
         private DataGridViewTextBoxColumn processTime;
         private DataGridView selectedProcesses;
+        private DataGridViewCheckBoxColumn Selected;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewImageColumn dataGridViewImageColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;

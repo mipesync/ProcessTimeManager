@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using ProcessTimeManager.Data;
 using ProcessTimeManager.Models;
+using ProcessTimeManager.UserForms;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace ProcessTimeManager
@@ -10,6 +13,7 @@ namespace ProcessTimeManager
     public partial class Form1 : Form
     {
         private List<DataItem> DataItems = new List<DataItem>();
+        private List<DataItem> SelectedItems = new List<DataItem>();
 
         public Form1()
         {
@@ -23,7 +27,18 @@ namespace ProcessTimeManager
             timer.Start();
             int seconds = 10;
             timer.Interval = seconds * 1000;*/
-            RefreshDataGrid(sender, e);
+            var initialize = new Task(() =>
+            {
+                GetProcesses();
+                InitializeRows();
+            });
+            initialize.Start();
+            var waitForm = new WaitForm();
+            waitForm.Show();
+
+            initialize.Wait();
+            RefreshDataGrid(processList, DataItems);
+            waitForm.Close();
         }
 
         private void GetProcesses()
@@ -31,6 +46,29 @@ namespace ProcessTimeManager
             var processes = new List<Process>();
             processes.Clear();
             processes.AddRange(Process.GetProcesses().ToList());
+
+            ConvertToDataItems(processes, DataItems);
+        }
+
+        private void InitializeRows()
+        {
+            GetProcessesById();
+
+            foreach (var item in DataItems)
+            {
+                foreach (var selectedItem in SelectedItems)
+                {
+                    if (item.ProcessId.Equals(selectedItem.ProcessId))
+                    {
+                        item.IsChecked = true;
+                    }
+                }
+            }
+        }
+
+        private void ConvertToDataItems(List<Process> processes, List<DataItem> dataItems)
+        {
+            dataItems.Clear();
 
             foreach (var process in processes)
             {
@@ -60,7 +98,7 @@ namespace ProcessTimeManager
                         }
                     }
 
-                    DataItems.Add(new DataItem
+                    dataItems.Add(new DataItem
                     {
                         ProcessId = process.Id,
                         Image = icon,
@@ -79,15 +117,19 @@ namespace ProcessTimeManager
             }
         }
 
-        private void RefreshDataGrid(object sender, EventArgs e)
+        private void RefreshDataGrid(DataGridView dataGridView, List<DataItem> dataItems)
         {
-            GetProcesses();
-
-            processList.Rows.Clear();
-            foreach (DataItem item in DataItems)
+            if (dataItems.Count() == 0)
             {
-                processList.Rows.Add(
-                    false,
+                dataGridView.Rows.Clear();
+                return;
+            }
+
+            dataGridView.Rows.Clear();
+            foreach (DataItem item in dataItems)
+            {
+                dataGridView.Rows.Add(
+                    item.IsChecked,
                     item.ProcessId,
                     item.Image,
                     item.Name,
@@ -128,8 +170,13 @@ namespace ProcessTimeManager
                     cell.Value = false;
 
                     var entity = await _dbContext.DataProcesses.FirstOrDefaultAsync(u => u.ProcessId == (int)row.Cells[1].Value);
+
+                    if (entity is null) return;
+
                     _dbContext.DataProcesses.Remove(entity!);
                     await _dbContext.SaveChangesAsync();
+
+                    SelectedItems.Remove(SelectedItems.Find(u => u.ProcessId == entity!.ProcessId)!);
 
                     MessageBox.Show($"{row.Cells[3].Value} has been removed.");
                     processList.Refresh();
@@ -142,10 +189,35 @@ namespace ProcessTimeManager
         {
             if (this.tabs.SelectedIndex == 1)
             {
-                MessageBox.Show("Selected active!");
+                GetProcessesById();
+                RefreshDataGrid(selectedProcesses, SelectedItems);
+            }
+            if(this.tabs.SelectedIndex == 0)
+            {
+                Form1_Load(sender, e);
             }
         }
 
-       // private 
+        private void GetProcessesById()
+        {
+            var processes = new List<Process>();
+
+            using (PTMContext _dbContext = new PTMContext())
+            {
+                var dataProcesses = _dbContext.DataProcesses.ToList();
+
+                if (dataProcesses.Count() == 0)
+                {
+                    SelectedItems.Clear();
+                }
+
+                foreach (var dataProcess in dataProcesses)
+                {
+                    processes.Add(Process.GetProcessById(dataProcess.ProcessId));
+                }
+            }
+
+            ConvertToDataItems(processes, SelectedItems);
+        }
     }
 }
