@@ -29,17 +29,12 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.processList = new System.Windows.Forms.DataGridView();
-            this.process_Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.process_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.processIcon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.processName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.processTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabAllProcesses = new System.Windows.Forms.TabPage();
             this.tabSelectedProcesses = new System.Windows.Forms.TabPage();
@@ -49,11 +44,19 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.refreshListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.process_Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.process_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.processIcon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.processName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.processTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.processList)).BeginInit();
             this.tabs.SuspendLayout();
             this.tabAllProcesses.SuspendLayout();
             this.tabSelectedProcesses.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selectedProcesses)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // processList
@@ -81,15 +84,147 @@
             this.processTime});
             this.processList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.processList.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.processList.Location = new System.Drawing.Point(3, 3);
+            this.processList.Location = new System.Drawing.Point(3, 27);
             this.processList.Name = "processList";
             this.processList.ReadOnly = true;
             this.processList.RowHeadersVisible = false;
             this.processList.RowTemplate.Height = 30;
             this.processList.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.processList.Size = new System.Drawing.Size(786, 416);
+            this.processList.Size = new System.Drawing.Size(786, 392);
             this.processList.TabIndex = 0;
             this.processList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.processList_CellClick);
+            // 
+            // tabs
+            // 
+            this.tabs.Controls.Add(this.tabAllProcesses);
+            this.tabs.Controls.Add(this.tabSelectedProcesses);
+            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabs.Location = new System.Drawing.Point(0, 0);
+            this.tabs.Name = "tabs";
+            this.tabs.SelectedIndex = 0;
+            this.tabs.Size = new System.Drawing.Size(800, 450);
+            this.tabs.TabIndex = 1;
+            this.tabs.Click += new System.EventHandler(this.tabs_Click);
+            // 
+            // tabAllProcesses
+            // 
+            this.tabAllProcesses.Controls.Add(this.processList);
+            this.tabAllProcesses.Controls.Add(this.menuStrip1);
+            this.tabAllProcesses.Location = new System.Drawing.Point(4, 24);
+            this.tabAllProcesses.Name = "tabAllProcesses";
+            this.tabAllProcesses.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAllProcesses.Size = new System.Drawing.Size(792, 422);
+            this.tabAllProcesses.TabIndex = 0;
+            this.tabAllProcesses.Text = "All processes";
+            this.tabAllProcesses.ToolTipText = "All processes";
+            this.tabAllProcesses.UseVisualStyleBackColor = true;
+            // 
+            // tabSelectedProcesses
+            // 
+            this.tabSelectedProcesses.Controls.Add(this.selectedProcesses);
+            this.tabSelectedProcesses.Location = new System.Drawing.Point(4, 24);
+            this.tabSelectedProcesses.Name = "tabSelectedProcesses";
+            this.tabSelectedProcesses.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSelectedProcesses.Size = new System.Drawing.Size(792, 398);
+            this.tabSelectedProcesses.TabIndex = 1;
+            this.tabSelectedProcesses.Text = "Selected processes";
+            this.tabSelectedProcesses.ToolTipText = "Selected processes";
+            this.tabSelectedProcesses.UseVisualStyleBackColor = true;
+            // 
+            // selectedProcesses
+            // 
+            this.selectedProcesses.AllowUserToAddRows = false;
+            this.selectedProcesses.AllowUserToDeleteRows = false;
+            this.selectedProcesses.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.selectedProcesses.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.selectedProcesses.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.selectedProcesses.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.selectedProcesses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.selectedProcesses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.selectedProcesses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Selected,
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewImageColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.selectedProcesses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedProcesses.GridColor = System.Drawing.SystemColors.ControlLight;
+            this.selectedProcesses.Location = new System.Drawing.Point(3, 3);
+            this.selectedProcesses.Name = "selectedProcesses";
+            this.selectedProcesses.ReadOnly = true;
+            this.selectedProcesses.RowHeadersVisible = false;
+            this.selectedProcesses.RowTemplate.Height = 30;
+            this.selectedProcesses.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.selectedProcesses.Size = new System.Drawing.Size(786, 392);
+            this.selectedProcesses.TabIndex = 1;
+            this.selectedProcesses.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.processList_CellClick);
+            // 
+            // Selected
+            // 
+            this.Selected.HeaderText = "Selected";
+            this.Selected.Name = "Selected";
+            this.Selected.ReadOnly = true;
+            this.Selected.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle5.NullValue")));
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewImageColumn1.HeaderText = "Icon";
+            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewImageColumn1.Width = 45;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshListToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(3, 3);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(786, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // refreshListToolStripMenuItem
+            // 
+            this.refreshListToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.refreshListToolStripMenuItem.Name = "refreshListToolStripMenuItem";
+            this.refreshListToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.refreshListToolStripMenuItem.Text = "Refresh list";
+            this.refreshListToolStripMenuItem.Click += new System.EventHandler(this.refreshListToolStripMenuItem_Click);
             // 
             // process_Select
             // 
@@ -140,118 +275,6 @@
             this.processTime.Name = "processTime";
             this.processTime.ReadOnly = true;
             // 
-            // tabs
-            // 
-            this.tabs.Controls.Add(this.tabAllProcesses);
-            this.tabs.Controls.Add(this.tabSelectedProcesses);
-            this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabs.Location = new System.Drawing.Point(0, 0);
-            this.tabs.Name = "tabs";
-            this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(800, 450);
-            this.tabs.TabIndex = 1;
-            this.tabs.Click += new System.EventHandler(this.tabs_Click);
-            // 
-            // tabAllProcesses
-            // 
-            this.tabAllProcesses.Controls.Add(this.processList);
-            this.tabAllProcesses.Location = new System.Drawing.Point(4, 24);
-            this.tabAllProcesses.Name = "tabAllProcesses";
-            this.tabAllProcesses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAllProcesses.Size = new System.Drawing.Size(792, 422);
-            this.tabAllProcesses.TabIndex = 0;
-            this.tabAllProcesses.Text = "All processes";
-            this.tabAllProcesses.ToolTipText = "All processes";
-            this.tabAllProcesses.UseVisualStyleBackColor = true;
-            // 
-            // tabSelectedProcesses
-            // 
-            this.tabSelectedProcesses.Controls.Add(this.selectedProcesses);
-            this.tabSelectedProcesses.Location = new System.Drawing.Point(4, 24);
-            this.tabSelectedProcesses.Name = "tabSelectedProcesses";
-            this.tabSelectedProcesses.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSelectedProcesses.Size = new System.Drawing.Size(792, 422);
-            this.tabSelectedProcesses.TabIndex = 1;
-            this.tabSelectedProcesses.Text = "Selected processes";
-            this.tabSelectedProcesses.ToolTipText = "Selected processes";
-            this.tabSelectedProcesses.UseVisualStyleBackColor = true;
-            // 
-            // selectedProcesses
-            // 
-            this.selectedProcesses.AllowUserToAddRows = false;
-            this.selectedProcesses.AllowUserToDeleteRows = false;
-            this.selectedProcesses.BackgroundColor = System.Drawing.SystemColors.ControlLight;
-            this.selectedProcesses.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.selectedProcesses.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.selectedProcesses.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.selectedProcesses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.selectedProcesses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.selectedProcesses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Selected,
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewImageColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3});
-            this.selectedProcesses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectedProcesses.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.selectedProcesses.Location = new System.Drawing.Point(3, 3);
-            this.selectedProcesses.Name = "selectedProcesses";
-            this.selectedProcesses.ReadOnly = true;
-            this.selectedProcesses.RowHeadersVisible = false;
-            this.selectedProcesses.RowTemplate.Height = 30;
-            this.selectedProcesses.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.selectedProcesses.Size = new System.Drawing.Size(786, 416);
-            this.selectedProcesses.TabIndex = 1;
-            // 
-            // Selected
-            // 
-            this.Selected.HeaderText = "Selected";
-            this.Selected.Name = "Selected";
-            this.Selected.ReadOnly = true;
-            this.Selected.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle5.NullValue")));
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridViewImageColumn1.HeaderText = "Icon";
-            this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.ReadOnly = true;
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewImageColumn1.Width = 45;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Time";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -265,8 +288,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.processList)).EndInit();
             this.tabs.ResumeLayout(false);
             this.tabAllProcesses.ResumeLayout(false);
+            this.tabAllProcesses.PerformLayout();
             this.tabSelectedProcesses.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.selectedProcesses)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -277,16 +303,18 @@
         private TabControl tabs;
         private TabPage tabAllProcesses;
         private TabPage tabSelectedProcesses;
-        private DataGridViewCheckBoxColumn process_Select;
-        private DataGridViewTextBoxColumn process_Id;
-        private DataGridViewImageColumn processIcon;
-        private DataGridViewTextBoxColumn processName;
-        private DataGridViewTextBoxColumn processTime;
         private DataGridView selectedProcesses;
         private DataGridViewCheckBoxColumn Selected;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewImageColumn dataGridViewImageColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewCheckBoxColumn process_Select;
+        private DataGridViewTextBoxColumn process_Id;
+        private DataGridViewImageColumn processIcon;
+        private DataGridViewTextBoxColumn processName;
+        private DataGridViewTextBoxColumn processTime;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem refreshListToolStripMenuItem;
     }
 }

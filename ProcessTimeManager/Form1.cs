@@ -1,11 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using ProcessTimeManager.Data;
+using ProcessTimeManager.BLL.Implementations;
+using ProcessTimeManager.BLL.Interfaces;
+using ProcessTimeManager.Exceptions;
 using ProcessTimeManager.Models;
 using ProcessTimeManager.UserForms;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Reflection;
-using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace ProcessTimeManager
@@ -13,132 +10,63 @@ namespace ProcessTimeManager
     public partial class Form1 : Form
     {
         private List<DataItem> DataItems = new List<DataItem>();
-        private List<DataItem> SelectedItems = new List<DataItem>();
+        private List<DataItem> CheckedItems = new List<DataItem>();
+        private readonly IRepository _repo;
 
         public Form1()
         {
             InitializeComponent();
+            _repo = new DataItemRepository();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            /*var timer = new Timer();
-            timer.Tick += new EventHandler(RefreshDataGrid!);
-            timer.Start();
-            int seconds = 10;
-            timer.Interval = seconds * 1000;*/
             var initialize = new Task(() =>
             {
-                GetProcesses();
-                InitializeRows();
+                DataItems = _repo.GetProcesses();
+                _repo.InitializeRows(DataItems);
             });
             initialize.Start();
             var waitForm = new WaitForm();
             waitForm.Show();
 
-            initialize.Wait();
-            RefreshDataGrid(processList, DataItems);
+            CheckCompleted(() =>
+            {
+                initialize.Wait();
+            });
+
+            _repo.RefreshDataGrid(processList, DataItems);
+
             waitForm.Close();
         }
 
-        private void GetProcesses()
+        private void CheckCompleted(Action action)
         {
-            var processes = new List<Process>();
-            processes.Clear();
-            processes.AddRange(Process.GetProcesses().ToList());
-
-            ConvertToDataItems(processes, DataItems);
-        }
-
-        private void InitializeRows()
-        {
-            GetProcessesById();
-
-            foreach (var item in DataItems)
+            try
             {
-                foreach (var selectedItem in SelectedItems)
+                action.Invoke();
+            }
+            catch (AggregateException ex)
+            {
+                var messageObjects = ex.Message.Split();
+                int processId = 0;
+
+                foreach (var item in messageObjects)
                 {
-                    if (item.ProcessId.Equals(selectedItem.ProcessId))
+                    int.TryParse(item, out processId);
+
+                    if (processId != 0)
                     {
-                        item.IsChecked = true;
+                        _repo.DeleteProcessFromDB(processId);
+                        CheckedItems.Remove(CheckedItems.Find(u => u.ProcessId == processId)!);
+                        DataItems.Remove(DataItems.Find(u => u.ProcessId == processId)!);
                     }
                 }
+
             }
         }
 
-        private void ConvertToDataItems(List<Process> processes, List<DataItem> dataItems)
-        {
-            dataItems.Clear();
-
-            foreach (var process in processes)
-            {
-                try
-                {
-                    var icon = Icon.ExtractAssociatedIcon(process.MainModule!.FileName!);
-
-                    string startsTimeString = string.Empty;
-                    var timeDifference = DateTime.Now - process.StartTime;
-
-                    if (timeDifference.Hours != 0)
-                    {
-                        startsTimeString = $"Запущен уже {timeDifference.Hours} часов";
-                    }
-                    else
-                    {
-                        if (timeDifference.Minutes != 0)
-                        {
-                            startsTimeString = $"Запущен {timeDifference.Minutes} минут назад";
-                        }
-                        else
-                        {
-                            if (timeDifference.Seconds != 0)
-                            {
-                                startsTimeString = $"Запущен {timeDifference.Seconds} секунд назад";
-                            }
-                        }
-                    }
-
-                    dataItems.Add(new DataItem
-                    {
-                        ProcessId = process.Id,
-                        Image = icon,
-                        Name = process.ProcessName,
-                        Time = startsTimeString
-                    });
-                }
-                catch (Win32Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-        }
-
-        private void RefreshDataGrid(DataGridView dataGridView, List<DataItem> dataItems)
-        {
-            if (dataItems.Count() == 0)
-            {
-                dataGridView.Rows.Clear();
-                return;
-            }
-
-            dataGridView.Rows.Clear();
-            foreach (DataItem item in dataItems)
-            {
-                dataGridView.Rows.Add(
-                    item.IsChecked,
-                    item.ProcessId,
-                    item.Image,
-                    item.Name,
-                    item.Time
-                );
-            }
-        }
-
-        private async void processList_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void processList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var cell = this.processList.CurrentCell as DataGridViewCheckBoxCell;
 
@@ -148,76 +76,65 @@ namespace ProcessTimeManager
 
             bool IsChecked = Convert.ToBoolean(cell!.Value);
 
-            using (PTMContext _dbContext = new PTMContext())
+            if (!IsChecked)
             {
-                if (!IsChecked)
+                cell.Value = true;
+
+                _repo.AddProcessToDB((int)row.Cells[1].Value);
+
+                MessageBox.Show($"{row.Cells[3].Value} has been added.");
+                processList.Refresh();
+                return;
+            }
+            if (IsChecked)
+            {
+                cell.Value = false;
+                try
                 {
-                    cell.Value = true;
+                    _repo.DeleteProcessFromDB((int)row.Cells[1].Value);
 
-                    await _dbContext.DataProcesses.AddAsync(new DataProcess
-                    {
-                        ProcessId = (int)row.Cells[1].Value
-                    });
-
-                    await _dbContext.SaveChangesAsync();
-
-                    MessageBox.Show($"{row.Cells[3].Value} has been added.");
-                    processList.Refresh();
-                    return;
-                }
-                if (IsChecked)
-                {
-                    cell.Value = false;
-
-                    var entity = await _dbContext.DataProcesses.FirstOrDefaultAsync(u => u.ProcessId == (int)row.Cells[1].Value);
-
-                    if (entity is null) return;
-
-                    _dbContext.DataProcesses.Remove(entity!);
-                    await _dbContext.SaveChangesAsync();
-
-                    SelectedItems.Remove(SelectedItems.Find(u => u.ProcessId == entity!.ProcessId)!);
+                    CheckedItems.Remove(CheckedItems.Find(u => u.ProcessId == (int)row.Cells[1].Value)!);
 
                     MessageBox.Show($"{row.Cells[3].Value} has been removed.");
-                    processList.Refresh();
-                    return;
                 }
+                catch(NotFoundException ex) { MessageBox.Show(ex.Message); }
+
+                processList.Refresh();
+                return;
             }
         }
 
         private void tabs_Click(object sender, EventArgs e)
         {
+            var timer = new Timer();
             if (this.tabs.SelectedIndex == 1)
             {
-                GetProcessesById();
-                RefreshDataGrid(selectedProcesses, SelectedItems);
+                CheckCompleted(() =>
+                {
+                    GridRefresher(sender, e);
+                });
+
+                timer.Tick += new EventHandler(GridRefresher!);
+                timer.Start();
+                int seconds = 5;
+                timer.Interval = seconds * 1000;
             }
             if(this.tabs.SelectedIndex == 0)
             {
+                timer.Stop();
                 Form1_Load(sender, e);
             }
         }
 
-        private void GetProcessesById()
+        private void GridRefresher(object sender, EventArgs args)
         {
-            var processes = new List<Process>();
+            CheckedItems = _repo.GetProcessesById();
+            _repo.RefreshDataGrid(selectedProcesses, CheckedItems);
+        }
 
-            using (PTMContext _dbContext = new PTMContext())
-            {
-                var dataProcesses = _dbContext.DataProcesses.ToList();
-
-                if (dataProcesses.Count() == 0)
-                {
-                    SelectedItems.Clear();
-                }
-
-                foreach (var dataProcess in dataProcesses)
-                {
-                    processes.Add(Process.GetProcessById(dataProcess.ProcessId));
-                }
-            }
-
-            ConvertToDataItems(processes, SelectedItems);
+        private void refreshListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1_Load(sender, e);
         }
     }
 }
